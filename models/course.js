@@ -30,11 +30,10 @@ const courseSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  categoryId: {
-    type: Schema.Types.ObjectId,
-    ref: "Category",
-    require: true,
-  },
+  // categoryId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "category",
+  // },
   attachments: {
     type: [Object],
     default: [],

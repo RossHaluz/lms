@@ -34,10 +34,9 @@ const CreatePage = () => {
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values) => {
-    console.log(values);
     try {
       const response = await axios.post("/api/courses", values);
-      console.log(response);
+
       if (response.status === 200) {
         route.push(`/teacher/courses/${response?.data?._id}`);
         toast.success("Succes created new course");
