@@ -8,7 +8,6 @@ export async function PUT(req) {
     const { userId } = auth();
     const { courseId } = req.params;
     const values = await req.json();
-    console.log(values);
     await connect();
 
     if (!userId) {
