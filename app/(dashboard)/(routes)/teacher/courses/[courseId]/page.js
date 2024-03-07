@@ -1,4 +1,3 @@
-"use client";
 import { IconBadge } from "@/components/icon-badge";
 import connect from "@/lib/mongodb";
 import CourseModel from "@/models/course";
@@ -52,7 +51,7 @@ const CourseDetailsPage = async ({ params }) => {
             <h2 className="text-xl">Customize your course</h2>
           </div>
 
-          <TitleForm initialData={course} />
+          {course && <TitleForm initialData={course} />}
         </div>
       </div>
     </div>

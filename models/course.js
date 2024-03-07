@@ -30,16 +30,16 @@ const courseSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  // categoryId: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "category",
-  // },
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    ref: "category",
+  },
   attachments: {
     type: [Object],
     default: [],
   },
 });
 
-const CourseModel = models.course || model("course", courseSchema);
+const CourseModel = models?.course || model("course", courseSchema);
 
 export default CourseModel;
