@@ -9,16 +9,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as z from "zod";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
 });
 
-const TitleForm = ({ initialData }) => {
+const TitleForm = ({ initialData, courseId }) => {
   const [isEddit, setIsEddit] = useState(false);
 
   const toggleEddit = () => setIsEddit((prev) => !prev);
@@ -30,7 +32,15 @@ const TitleForm = ({ initialData }) => {
 
   const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async () => {};
+  const onSubmit = async (values) => {
+    try {
+      console.log("courseId", courseId);
+      const response = await axios.put(`/api/courses/${courseId}`, values);
+      console.log(response);
+    } catch (error) {
+      toast.error("Something went wrong...");
+    }
+  };
 
   return (
     <div className="p-4 bg-slate-200 rounded-md flex flex-col gap-2">
