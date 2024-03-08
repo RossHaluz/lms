@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Pencil } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -21,9 +21,10 @@ const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
 });
 
-const TitleForm = ({ initialData, courseId }) => {
+const TitleForm = ({ initialData }) => {
   const [isEddit, setIsEddit] = useState(false);
   const route = useRouter();
+  const { courseId } = useParams();
 
   const toggleEddit = () => setIsEddit((prev) => !prev);
 
@@ -38,6 +39,7 @@ const TitleForm = ({ initialData, courseId }) => {
     try {
       await axios.put(`/api/courses/${courseId}`, values);
       toast.success("Course success update");
+      toggleEddit();
       route.refresh();
     } catch (error) {
       toast.error("Something went wrong...");

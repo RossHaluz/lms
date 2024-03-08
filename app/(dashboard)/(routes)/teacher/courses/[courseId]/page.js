@@ -16,8 +16,6 @@ const CourseDetailsPage = async ({ params }) => {
 
   const course = await CourseModel.findById(params?.courseId);
 
-  console.log(course);
-
   if (!course) {
     return redirect("/");
   }
@@ -53,21 +51,18 @@ const CourseDetailsPage = async ({ params }) => {
             <h2 className="text-xl">Customize your course</h2>
           </div>
 
-          {course && (
-            <TitleForm
-              initialData={{
-                _id: course._id.toString(),
-                userId: course.userId,
-                title: course.title,
-                description: course.description,
-                imageUrl: course.imageUrl,
-                price: course.price,
-                isPublished: course.isPublished,
-                attachments: course.attachments,
-              }}
-              courseId={course._id.toString()}
-            />
-          )}
+          <TitleForm
+            initialData={{
+              _id: course._id.toString(),
+              userId: course.userId,
+              title: course.title,
+              description: course.description,
+              imageUrl: course.imageUrl,
+              price: course.price,
+              isPublished: course.isPublished,
+              attachments: course.attachments,
+            }}
+          />
         </div>
       </div>
     </div>
