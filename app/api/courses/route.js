@@ -18,7 +18,7 @@ export async function POST(req) {
       title,
     });
 
-    return new NextResponse.json(newCourse);
+    return NextResponse.json(newCourse);
   } catch (error) {
     console.log(error.message);
     return new NextResponse("Internal Error", { status: 500 });

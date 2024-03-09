@@ -5,11 +5,12 @@ import { auth } from "@clerk/nextjs";
 import { LayoutDashboard } from "lucide-react";
 import { redirect } from "next/navigation";
 import TitleForm from "./_components/title-form";
+import DescriptionForm from "./_components/description-form";
+import ImageForm from "./_components/image-form";
 
 const CourseDetailsPage = async ({ params }) => {
   await connect();
   const { userId } = auth();
-
   if (!userId) {
     return redirect("/");
   }
@@ -52,6 +53,32 @@ const CourseDetailsPage = async ({ params }) => {
           </div>
 
           <TitleForm
+            initialData={{
+              _id: course._id.toString(),
+              userId: course.userId,
+              title: course.title,
+              description: course.description,
+              imageUrl: course.imageUrl,
+              price: course.price,
+              isPublished: course.isPublished,
+              attachments: course.attachments,
+            }}
+          />
+
+          <DescriptionForm
+            initialData={{
+              _id: course._id.toString(),
+              userId: course.userId,
+              title: course.title,
+              description: course.description,
+              imageUrl: course.imageUrl,
+              price: course.price,
+              isPublished: course.isPublished,
+              attachments: course.attachments,
+            }}
+          />
+
+          <ImageForm
             initialData={{
               _id: course._id.toString(),
               userId: course.userId,
