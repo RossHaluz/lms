@@ -3,8 +3,8 @@ import { createUploadthing } from "uploadthing/next";
 
 const f = createUploadthing();
 
-const handleAuth = async () => {
-  const { userId } = await auth();
+const handleAuth = () => {
+  const { userId } = auth();
 
   if (!userId) throw new Error("Unauthorized");
   return { userId };
