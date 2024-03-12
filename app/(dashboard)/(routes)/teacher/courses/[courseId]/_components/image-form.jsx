@@ -1,19 +1,12 @@
 "use client";
 import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
-import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import * as z from "zod";
-
-const formSchema = z.object({
-  imageUrl: z.string().min(1, "Description is required"),
-});
 
 const ImageForm = ({ initialData }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -21,13 +14,6 @@ const ImageForm = ({ initialData }) => {
   const { courseId } = useParams();
 
   const toggleEdit = () => setIsEditing((prev) => !prev);
-
-  const form = useForm({
-    defaultValues: initialData,
-    resolver: zodResolver(formSchema),
-  });
-
-  const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values) => {
     try {
@@ -71,6 +57,7 @@ const ImageForm = ({ initialData }) => {
             <Image
               alt="Upload"
               fill
+              priority
               className="object-cover rounded-md"
               src={initialData.imageUrl}
             />

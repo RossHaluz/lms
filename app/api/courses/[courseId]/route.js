@@ -1,4 +1,5 @@
 import connect from "@/lib/mongodb";
+import CategoryModel from "@/models/category";
 import CourseModel from "@/models/course";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
@@ -20,6 +21,12 @@ export async function PUT(req, { params }) {
 
     if (!updateCourse) {
       return new NextResponse("Something went wrong", { status: 500 });
+    }
+
+    if (values.categoryId) {
+      await CategoryModel.findByIdAndUpdate(values.categoryId, {
+        $push: { courses: updateCourse._id },
+      });
     }
 
     return new NextResponse(updateCourse);

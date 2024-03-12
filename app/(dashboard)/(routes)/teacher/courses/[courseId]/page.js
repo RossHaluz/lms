@@ -2,11 +2,21 @@ import { IconBadge } from "@/components/icon-badge";
 import connect from "@/lib/mongodb";
 import CourseModel from "@/models/course";
 import { auth } from "@clerk/nextjs";
-import { LayoutDashboard } from "lucide-react";
+import {
+  DollarSignIcon,
+  File,
+  LayoutDashboard,
+  ListChecks,
+} from "lucide-react";
 import { redirect } from "next/navigation";
 import TitleForm from "./_components/title-form";
 import DescriptionForm from "./_components/description-form";
 import ImageForm from "./_components/image-form";
+import CategoryModel from "@/models/category";
+import CategoryForm from "./_components/category-form";
+import PriceForm from "./_components/price-form";
+import AttachmentForm from "./_components/attachment-form";
+import AttachmentModel from "@/models/attachment";
 
 const CourseDetailsPage = async ({ params }) => {
   await connect();
@@ -15,7 +25,14 @@ const CourseDetailsPage = async ({ params }) => {
     return redirect("/");
   }
 
+  const categories = await CategoryModel.find();
+
   const course = await CourseModel.findById(params?.courseId);
+
+  const attachments = await AttachmentModel.find({
+    courseId: params?.courseId,
+  });
+
 
   if (!course) {
     return redirect("/");
@@ -90,6 +107,66 @@ const CourseDetailsPage = async ({ params }) => {
               attachments: course.attachments,
             }}
           />
+
+          <CategoryForm
+            initialData={{
+              _id: course._id.toString(),
+              categoryId: course?.categoryId?.toString(),
+              userId: course.userId,
+              title: course.title,
+              description: course.description,
+              imageUrl: course.imageUrl,
+              price: course.price,
+              isPublished: course.isPublished,
+              attachments: course.attachments,
+            }}
+            options={categories?.map((item) => ({
+              label: item?.name,
+              value: item?._id.toString(),
+            }))}
+          />
+        </div>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <IconBadge icon={ListChecks} />
+              <h2 className="text-xl">Course chapter</h2>
+            </div>
+            <div>Todo chaters</div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <IconBadge icon={DollarSignIcon} />
+              <h2 className="text-xl">Course price</h2>
+            </div>
+            <PriceForm
+              initialData={{
+                _id: course._id.toString(),
+                userId: course.userId,
+                title: course.title,
+                description: course.description,
+                imageUrl: course.imageUrl,
+                price: course.price,
+                isPublished: course.isPublished,
+                attachments: course.attachments,
+              }}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <IconBadge icon={File} />
+              <h2 className="text-xl">Resources & Attachments</h2>
+            </div>
+            <AttachmentForm
+              attachments={attachments?.map((attachment) => ({
+                id: attachment?._id?.toString(),
+                name: attachment?.name,
+                url: attachment?.url,
+                courseId: attachment?.courseId?.toString(),
+              }))}
+            />
+          </div>
         </div>
       </div>
     </div>
