@@ -39,6 +39,11 @@ const courseSchema = new Schema({
     ref: "attachment",
     default: [],
   },
+  chapters: {
+    type: [Schema.Types.ObjectId],
+    ref: "chapter",
+    default: [],
+  },
 });
 
 const CourseModel = models?.course || model("course", courseSchema);

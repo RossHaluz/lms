@@ -2,7 +2,7 @@
 import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { File, PlusCircle, X } from "lucide-react";
+import { File, Loader2, PlusCircle, X } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -11,6 +11,7 @@ const AttachmentForm = ({ attachments }) => {
   const [isEditing, setIsEditing] = useState(false);
   const route = useRouter();
   const { courseId } = useParams();
+  const [deletingId, setDeletingId] = useState(null);
 
   const toggleEdit = () => setIsEditing((prev) => !prev);
 
@@ -27,11 +28,14 @@ const AttachmentForm = ({ attachments }) => {
 
   const deleteAttachment = async (attachmentId) => {
     try {
+      setDeletingId(attachmentId);
       await axios.delete(`/api/courses/${courseId}/attachment/${attachmentId}`);
       toast.success("Attachment success delete");
       route.refresh();
     } catch (error) {
       toast.error("Something went wrong... ");
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -63,13 +67,20 @@ const AttachmentForm = ({ attachments }) => {
                 <File className="h-4 w-4" />
                 <p className="text-xs line-clamp-1">{attachment.name}</p>
               </div>
-              <button
-                type="button"
-                className="hover:opacity-75 transition"
-                onClick={() => deleteAttachment(attachment.id)}
-              >
-                <X className="h-4 w-4" />
-              </button>
+              {deletingId === attachment.id && (
+                <div>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                </div>
+              )}
+              {deletingId !== attachment.id && (
+                <button
+                  type="button"
+                  className="hover:opacity-75 transition"
+                  onClick={() => deleteAttachment(attachment.id)}
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
           );
         })}

@@ -17,6 +17,8 @@ import CategoryForm from "./_components/category-form";
 import PriceForm from "./_components/price-form";
 import AttachmentForm from "./_components/attachment-form";
 import AttachmentModel from "@/models/attachment";
+import ChapterForm from "./_components/chapter-form";
+import ChapterModel from "@/models/chapter";
 
 const CourseDetailsPage = async ({ params }) => {
   await connect();
@@ -33,6 +35,11 @@ const CourseDetailsPage = async ({ params }) => {
     courseId: params?.courseId,
   });
 
+  const chapters = await ChapterModel.find({
+    courseId: params?.courseId,
+  }).sort({ position: 1 });
+
+  console.log(chapters);
 
   if (!course) {
     return redirect("/");
@@ -127,14 +134,25 @@ const CourseDetailsPage = async ({ params }) => {
           />
         </div>
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <IconBadge icon={ListChecks} />
               <h2 className="text-xl">Course chapter</h2>
             </div>
-            <div>Todo chaters</div>
+            <ChapterForm
+              chapters={chapters?.map((chapter) => ({
+                id: chapter?._id.toString(),
+                title: chapter?.title,
+                description: chapter?.description,
+                videoUrl: chapter?.videoUrl,
+                position: chapter?.position,
+                isPublished: chapter?.isPublished,
+                isFree: chapter?.isFree,
+                courseId: chapter?.courseId.toString(),
+              }))}
+            />
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <IconBadge icon={DollarSignIcon} />
               <h2 className="text-xl">Course price</h2>
@@ -153,7 +171,7 @@ const CourseDetailsPage = async ({ params }) => {
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <IconBadge icon={File} />
               <h2 className="text-xl">Resources & Attachments</h2>

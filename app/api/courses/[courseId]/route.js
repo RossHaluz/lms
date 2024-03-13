@@ -15,9 +15,16 @@ export async function PUT(req, { params }) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const updateCourse = await CourseModel.findByIdAndUpdate(courseId, values, {
-      new: true,
-    });
+    const updateCourse = await CourseModel.findByIdAndUpdate(
+      courseId,
+      {
+        ...values,
+        userId: userId,
+      },
+      {
+        new: true,
+      }
+    );
 
     if (!updateCourse) {
       return new NextResponse("Something went wrong", { status: 500 });
