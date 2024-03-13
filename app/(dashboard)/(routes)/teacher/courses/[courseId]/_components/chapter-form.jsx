@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { Pencil, PlusCircle } from "lucide-react";
+import { Loader2, Pencil, PlusCircle } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,7 +25,7 @@ const formSchema = z.object({
 
 const ChapterForm = ({ chapters }) => {
   const [isCreating, setIsCreating] = useState(false);
-  const [isEddit, setIsEddit] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const route = useRouter();
   const { courseId } = useParams();
@@ -52,10 +52,28 @@ const ChapterForm = ({ chapters }) => {
     }
   };
 
-  const onReorder = async (chapterDetails) => {};
+  const onReorder = async (chapterDetails) => {
+    try {
+      setIsUpdating(true);
+      await axios.put(`/api/courses/${courseId}/chapter/reorder`, {
+        list: chapterDetails,
+      });
+      toast.success("Chapters reorder success");
+      route.refresh();
+    } catch (error) {
+      toast.error("Something went wrong...");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   return (
-    <div className="p-4 bg-slate-200 rounded-md flex flex-col gap-2">
+    <div className="relative p-4 bg-slate-200 rounded-md flex flex-col gap-2">
+      {isUpdating && (
+        <div className="absolute top-0 left-0 rounded-md w-full h-full flex items-center justify-center bg-slate-400/20">
+          <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
+        </div>
+      )}
       <div className="flex items-center justify-between">
         <h3 className="text-sm">Course chapter</h3>
         {!isCreating ? (

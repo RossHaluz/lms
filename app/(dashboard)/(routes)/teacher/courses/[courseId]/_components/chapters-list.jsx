@@ -22,18 +22,12 @@ const ChaptersList = ({ onReorder, items }) => {
 
     const items = Array.from(chapters);
     const [reorderedItem] = items.splice(result.source.index, 1);
-    console.log(reorderedItem);
     items.splice(result.destination.index, 0, reorderedItem);
 
     const startIndex = Math.min(result.source.index, result.destination.index);
-    console.log("result.source.index", result.source.index);
-    console.log("result.destination.index", result.destination.index);
-    console.log("startIndex", startIndex);
     const endIndex = Math.max(result.source.index, result.destination.index);
-    console.log("endIndex", endIndex);
 
     const updatedChapters = items.slice(startIndex, endIndex + 1);
-    console.log("updatedChapters", updatedChapters);
 
     setChapters(items);
 

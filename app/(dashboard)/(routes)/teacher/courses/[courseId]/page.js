@@ -39,8 +39,6 @@ const CourseDetailsPage = async ({ params }) => {
     courseId: params?.courseId,
   }).sort({ position: 1 });
 
-  console.log(chapters);
-
   if (!course) {
     return redirect("/");
   }
