@@ -5,12 +5,12 @@ import {
   Draggable,
   DropResult,
 } from "@hello-pangea/dnd";
-import { Grip, LucideBarChartHorizontalBig, Pencil } from "lucide-react";
+import { Grip, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 import { cn } from "@/lib/utils";
 
-const ChaptersList = ({ onReorder, items }) => {
+const ChaptersList = ({ onReorder, items, isEddit }) => {
   const [chapters, setChapters] = useState(items);
 
   useEffect(() => {
@@ -81,7 +81,10 @@ const ChaptersList = ({ onReorder, items }) => {
                       >
                         {chapter.isPublished ? "Published" : "Draft"}
                       </Badge>
-                      <Pencil className="w-4 h-4 cursor-pointer hover:opacity-75 transition" />
+                      <Pencil
+                        onClick={() => isEddit(chapter.id)}
+                        className="w-4 h-4 cursor-pointer hover:opacity-75 transition"
+                      />
                     </div>
                   </div>
                 )}

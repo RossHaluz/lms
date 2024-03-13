@@ -67,6 +67,10 @@ const ChapterForm = ({ chapters }) => {
     }
   };
 
+  const isEddit = (id) => {
+    route.push(`/teacher/courses/${courseId}/chapters/${id}`);
+  };
+
   return (
     <div className="relative p-4 bg-slate-200 rounded-md flex flex-col gap-2">
       {isUpdating && (
@@ -134,7 +138,11 @@ const ChapterForm = ({ chapters }) => {
           )}
         >
           {!chapters.length && "No chapters"}
-          <ChaptersList onReorder={onReorder} items={chapters} />
+          <ChaptersList
+            onReorder={onReorder}
+            items={chapters}
+            isEddit={isEddit}
+          />
         </div>
       )}
       {!isCreating && (

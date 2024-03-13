@@ -7,6 +7,7 @@ const chapterSchema = new Schema({
   },
   description: {
     type: String,
+    default: "",
   },
   videoUrl: {
     type: String,
