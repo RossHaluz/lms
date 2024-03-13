@@ -2,6 +2,8 @@ import { IconBadge } from "@/components/icon-badge";
 import ChapterModel from "@/models/chapter";
 import { ArrowLeft, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
+import ChapterTitleForm from "./_components/chapter-title-form";
+import ChapterDescriptionForm from "./_components/chapter-description-form";
 
 const ChapterIdPage = async ({ params }) => {
   const chapter = await ChapterModel.findById(params?.chapterId);
@@ -16,8 +18,6 @@ const ChapterIdPage = async ({ params }) => {
   const completeFields = requireFields?.filter(Boolean)?.length;
 
   const completeText = `${completeFields}/${totalFields}`;
-
-  console.log(chapter);
 
   return (
     <div className="p-6 flex flex-col gap-16">
@@ -43,6 +43,16 @@ const ChapterIdPage = async ({ params }) => {
             <IconBadge icon={LayoutDashboard} />
             <h2 className="text-xl">Customize your chapter</h2>
           </div>
+          <ChapterTitleForm
+            initialData={{
+              title: chapter?.title,
+            }}
+          />
+          <ChapterDescriptionForm
+            initialData={{
+              description: chapter?.description,
+            }}
+          />
         </div>
       </div>
     </div>

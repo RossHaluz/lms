@@ -86,4 +86,8 @@ img {
   }
 }
 
+.ql-container {
+  font-size: 16px !important;
+}
+
 @import "@uploadthing/react/styles.css";
