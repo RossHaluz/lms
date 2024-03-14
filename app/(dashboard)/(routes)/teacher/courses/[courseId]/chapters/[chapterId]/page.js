@@ -1,12 +1,17 @@
 import { IconBadge } from "@/components/icon-badge";
 import ChapterModel from "@/models/chapter";
-import { ArrowLeft, LayoutDashboard } from "lucide-react";
+import { ArrowLeft, EyeIcon, LayoutDashboard, Video } from "lucide-react";
 import Link from "next/link";
 import ChapterTitleForm from "./_components/chapter-title-form";
 import ChapterDescriptionForm from "./_components/chapter-description-form";
+import ChapterAccessForm from "./_components/chapter-access-form";
+import MuxDataModel from "@/models/muxdata";
+import ChapterVideoForm from "./_components/chapter-video-form";
 
 const ChapterIdPage = async ({ params }) => {
   const chapter = await ChapterModel.findById(params?.chapterId);
+
+  const muxdata = await MuxDataModel.findOne({ chapterId: params?.chapterId });
 
   const requireFields = [
     chapter?.title,
@@ -38,19 +43,46 @@ const ChapterIdPage = async ({ params }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <IconBadge icon={LayoutDashboard} />
+              <h2 className="text-xl">Customize your chapter</h2>
+            </div>
+            <ChapterTitleForm
+              initialData={{
+                title: chapter?.title,
+              }}
+            />
+            <ChapterDescriptionForm
+              initialData={{
+                description: chapter?.description,
+              }}
+            />
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <IconBadge icon={EyeIcon} />
+              <h2 className="text-xl">Access settings</h2>
+            </div>
+            <ChapterAccessForm
+              initialData={{
+                isFree: chapter?.isFree,
+              }}
+            />
+          </div>
+        </div>
+
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            <IconBadge icon={LayoutDashboard} />
-            <h2 className="text-xl">Customize your chapter</h2>
+            <IconBadge icon={Video} />
+            <h2 className="text-xl">Add video</h2>
           </div>
-          <ChapterTitleForm
+          <ChapterVideoForm
             initialData={{
-              title: chapter?.title,
-            }}
-          />
-          <ChapterDescriptionForm
-            initialData={{
-              description: chapter?.description,
+              videoUrl: chapter?.videoUrl,
+              playbackId: muxdata?.playbackId,
             }}
           />
         </div>

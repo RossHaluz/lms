@@ -1,15 +1,13 @@
 "use client";
-import { EdditDescription } from "@/components/eddit-description";
-import { Preview } from "@/components/preview-description";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormItem,
   FormControl,
-  FormMessage,
   FormField,
+  FormDescription,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -21,10 +19,10 @@ import { toast } from "react-toastify";
 import * as z from "zod";
 
 const formSchema = z.object({
-  description: z.string().min(1, "Description is required"),
+  isFree: z.boolean().default(false),
 });
 
-const ChapterDescriptionForm = ({ initialData }) => {
+const ChapterAccessForm = ({ initialData }) => {
   const [isEddit, setIsEddit] = useState(false);
   const route = useRouter();
   const { courseId, chapterId } = useParams();
@@ -33,7 +31,7 @@ const ChapterDescriptionForm = ({ initialData }) => {
 
   const form = useForm({
     defaultValues: {
-      description: initialData?.description,
+      isFree: !!initialData.isFree,
     },
     resolver: zodResolver(formSchema),
   });
@@ -54,7 +52,7 @@ const ChapterDescriptionForm = ({ initialData }) => {
   return (
     <div className="p-4 bg-slate-200 rounded-md flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm">Chapter description</h3>
+        <h3 className="text-sm">Chapter access</h3>
         {!isEddit ? (
           <Button
             variant="ghost"
@@ -62,7 +60,7 @@ const ChapterDescriptionForm = ({ initialData }) => {
             className="flex items-center gap-2"
           >
             <Pencil className="w-4 h-4" />
-            Eddit description
+            Eddit access
           </Button>
         ) : (
           <Button variant="ghost" onClick={toggleEddit}>
@@ -71,7 +69,22 @@ const ChapterDescriptionForm = ({ initialData }) => {
         )}
       </div>
 
-      {isEddit ? (
+      {!isEddit && (
+        <p
+          className={cn(
+            "text-sm mt-2",
+            !initialData.isFree && "text-slate-500 italic"
+          )}
+        >
+          {initialData.isFree ? (
+            <>This chapter is free for preview.</>
+          ) : (
+            <>This chapter is not free.</>
+          )}
+        </p>
+      )}
+
+      {isEddit && (
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -79,14 +92,22 @@ const ChapterDescriptionForm = ({ initialData }) => {
           >
             <FormField
               control={form.control}
-              name="description"
+              name="isFree"
               render={({ field }) => {
                 return (
-                  <FormItem>
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                     <FormControl>
-                      <EdditDescription {...field} />
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <div className="space-y-1 leading-none">
+                      <FormDescription>
+                        Check this box if you want to make this chapter free for
+                        preview
+                      </FormDescription>
+                    </div>
                   </FormItem>
                 );
               }}
@@ -94,26 +115,14 @@ const ChapterDescriptionForm = ({ initialData }) => {
 
             <div className="flex items-center gap-2">
               <Button disabled={isSubmitting || !isValid} type="submit">
-                Eddit
+                Save
               </Button>
             </div>
           </form>
         </Form>
-      ) : (
-        <div
-          className={cn(
-            "text-sm",
-            !initialData?.description && "text-slate-500 italic"
-          )}
-        >
-          {!initialData?.description && "No description"}
-          {initialData?.description && (
-            <Preview value={initialData?.description} />
-          )}
-        </div>
       )}
     </div>
   );
 };
 
-export default ChapterDescriptionForm;
+export default ChapterAccessForm;

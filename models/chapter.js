@@ -12,6 +12,7 @@ const chapterSchema = new Schema({
   videoUrl: {
     type: String,
   },
+  muxData: { type: Schema.Types.ObjectId, ref: "muxdata" },
   position: {
     type: Number,
   },
