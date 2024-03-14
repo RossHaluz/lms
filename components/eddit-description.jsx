@@ -5,27 +5,15 @@ import { useMemo, forwardRef } from "react";
 
 import "react-quill/dist/quill.snow.css";
 
-export const EdditDescription = forwardRef(({ value, onChange }, ref) => {
+export const EdditDescription = ({ value, onChange }) => {
   const ReactQuill = useMemo(
-    () =>
-      dynamic(() => import("react-quill").then((mod) => mod.default), {
-        ssr: false,
-      }),
+    () => dynamic(() => import("react-quill"), { ssr: false }),
     []
   );
 
-  const handleChange = (content, delta, source, editor) => {
-    onChange(content);
-  };
-
   return (
     <div className="bg-white">
-      <ReactQuill
-        theme="snow"
-        value={value}
-        onChange={handleChange}
-        ref={ref}
-      />
+      <ReactQuill theme="snow" value={value} onChange={onChange} />
     </div>
   );
-});
+};
