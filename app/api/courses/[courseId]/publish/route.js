@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 
 export async function PUT(req, { params }) {
   try {
-    const { courseId, chapterId } = params;
+    const { courseId } = params;
     const { userId } = auth();
     await connect();
 
@@ -23,26 +23,28 @@ export async function PUT(req, { params }) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const updateChapter = await ChapterModel.findByIdAndUpdate(
-      chapterId,
-      {
-        isPublished: false,
-      },
-      { new: true }
-    );
-
-    const isPublishedChapterInCourse = await ChapterModel.find({
+    const isPublishedChapter = await ChapterModel.find({
       courseId: courseId,
       isPublished: true,
     });
 
-    if (!isPublishedChapterInCourse?.length) {
-      await CourseModel.findByIdAndUpdate(courseId, { isPublished: false });
+    if (!isPublishedChapter?.length) {
+      return new NextResponse("There should be at least one public chaper", {
+        status: 400,
+      });
     }
 
-    return NextResponse.json(updateChapter);
+    const updateCourse = await CourseModel.findByIdAndUpdate(
+      courseId,
+      {
+        isPublished: true,
+      },
+      { new: true }
+    );
+
+    return NextResponse.json(updateCourse);
   } catch (error) {
-    console.log("[CHAPTER_ID_PUBLISH]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    console.log(error.message);
+    return new NextResponse("[COURSE_PUBLISH]", error.message);
   }
 }

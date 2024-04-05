@@ -1,12 +1,11 @@
 import connect from "@/lib/mongodb";
-import ChapterModel from "@/models/chapter";
 import CourseModel from "@/models/course";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function PUT(req, { params }) {
   try {
-    const { courseId, chapterId } = params;
+    const { courseId } = params;
     const { userId } = auth();
     await connect();
 
@@ -23,26 +22,17 @@ export async function PUT(req, { params }) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const updateChapter = await ChapterModel.findByIdAndUpdate(
-      chapterId,
+    const updateCourse = await CourseModel.findByIdAndUpdate(
+      courseId,
       {
         isPublished: false,
       },
       { new: true }
     );
 
-    const isPublishedChapterInCourse = await ChapterModel.find({
-      courseId: courseId,
-      isPublished: true,
-    });
-
-    if (!isPublishedChapterInCourse?.length) {
-      await CourseModel.findByIdAndUpdate(courseId, { isPublished: false });
-    }
-
-    return NextResponse.json(updateChapter);
+    return NextResponse.json(updateCourse);
   } catch (error) {
-    console.log("[CHAPTER_ID_PUBLISH]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    console.log(error.message);
+    return new NextResponse("[COURSE_UNPUBLISH]", error.message);
   }
 }
