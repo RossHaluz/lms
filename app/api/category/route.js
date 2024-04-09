@@ -22,3 +22,14 @@ export async function POST(req) {
     console.log(error.message);
   }
 }
+
+export async function GET(req) {
+  try {
+    const categories = await CategoryModel.find();
+
+    return NextResponse.json(categories);
+  } catch (error) {
+    console.log("[GET_CATEGORIES]", error.message);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}

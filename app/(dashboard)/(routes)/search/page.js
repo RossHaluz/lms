@@ -1,8 +1,9 @@
-import CategoryModel from "@/models/category";
 import Categories from "./_components/categories";
+import axios from "axios";
 
 const SearchPage = async () => {
-  const items = await CategoryModel.find();
+  const items = await axios.get("/api/category");
+
   return (
     <div className="p-6">
       <Categories items={items} />
