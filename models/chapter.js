@@ -24,6 +24,10 @@ const chapterSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  userProgress: {
+    type: [Schema.Types.ObjectId],
+    ref: "userProgress",
+  },
   courseId: {
     type: Schema.Types.ObjectId,
     ref: "course",

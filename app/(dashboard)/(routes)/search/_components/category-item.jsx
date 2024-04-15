@@ -17,11 +17,11 @@ const CategoryItem = ({ lable, value, icon: Icon }) => {
       {
         url: pathcname,
         query: {
-          title: getTitle,
           categoryId: isSelected ? null : value,
+          title: getTitle,
         },
       },
-      { skipNull: true, skipEmptyString: true }
+      { skipEmptyString: true, skipNull: true }
     );
 
     router.push(url);
