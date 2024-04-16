@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const stripeCustomerSchema = new Schema({
   userId: {
@@ -10,7 +10,7 @@ const stripeCustomerSchema = new Schema({
 });
 
 const stripeCustomerModel =
-  model.stripeCstripeCustomerSchemaustomer ||
+  models.stripeCstripeCustomerSchemaustomer ||
   model("stripeCustomer", stripeCustomerSchema);
 
 export default stripeCustomerModel;

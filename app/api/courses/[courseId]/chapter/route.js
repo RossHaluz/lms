@@ -27,7 +27,7 @@ export async function POST(req, { params }) {
     });
 
     await CourseModel.findByIdAndUpdate(courseId, {
-      $push: newChapter._id,
+      $push: { chapters: newChapter._id },
     });
 
     return NextResponse.json(newChapter);

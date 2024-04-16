@@ -3,10 +3,12 @@ import { Schema, model, models } from "mongoose";
 const userProgressSchema = new Schema({
   userId: {
     type: String,
+    unique: true,
   },
   chapterId: {
     type: Schema.Types.ObjectId,
     ref: "chapter",
+    unique: true,
   },
   isCompleted: {
     type: Boolean,

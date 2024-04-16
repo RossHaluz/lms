@@ -42,7 +42,8 @@ export async function DELETE(req, { params }) {
       });
 
       if (existingMuxData) {
-        await mux.video.assets.delete(existingMuxData.assetId);
+        console.log("existingMuxData", existingMuxData);
+        await mux?.video?.assets?.delete(existingMuxData.assetId);
         await MuxDataModel.findByIdAndDelete(existingMuxData._id);
       }
     }
@@ -91,7 +92,7 @@ export async function PUT(req, { params }) {
       { new: true }
     );
 
-    if (values.videoUrl) {
+    if (values?.videoUrl) {
       const existingMuxData = await MuxDataModel.findOne({
         chapterId: chapterId,
       });
@@ -102,7 +103,7 @@ export async function PUT(req, { params }) {
       }
 
       const asset = await mux.video.assets.create({
-        input: values.videoUrl,
+        input: values?.videoUrl,
         playback_policy: "public",
         test: false,
       });

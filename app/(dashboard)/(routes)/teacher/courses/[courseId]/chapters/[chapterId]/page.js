@@ -55,9 +55,9 @@ const ChapterIdPage = async ({ params }) => {
           </div>
           <ChapterActions
             chapterId={params?.chapterId}
-            courseId={chapter.courseId.toString()}
+            courseId={chapter?.courseId?.toString()}
             disabled={!allCompleted}
-            isPublished={chapter.isPublished}
+            isPublished={chapter?.isPublished}
           />
         </div>
 
