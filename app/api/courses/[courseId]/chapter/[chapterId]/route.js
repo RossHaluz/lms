@@ -42,7 +42,6 @@ export async function DELETE(req, { params }) {
       });
 
       if (existingMuxData) {
-        console.log("existingMuxData", existingMuxData);
         await mux?.video?.assets?.delete(existingMuxData.assetId);
         await MuxDataModel.findByIdAndDelete(existingMuxData._id);
       }

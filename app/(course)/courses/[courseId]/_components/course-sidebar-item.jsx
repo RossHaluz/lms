@@ -41,7 +41,7 @@ const CourseSedibarItem = ({ id, label, isCompleted, courseId, isLocked }) => {
 
       <div
         className={cn(
-          "ml-auto border-r border-slate-700 opacity-0 h-full transition-all",
+          "ml-auto border-r border-slate-700 border-2 rounded-sm opacity-0 h-full transition-all",
           isActive && "opacity-100",
           isCompleted && "border-emerald-700"
         )}
