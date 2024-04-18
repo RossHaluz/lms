@@ -15,8 +15,6 @@ export async function POST(req) {
 
     const newCategory = await CategoryModel.create({ ...values });
 
-    console.log(newCategory);
-
     return NextResponse.json(newCategory);
   } catch (error) {
     console.log(error.message);

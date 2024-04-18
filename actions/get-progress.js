@@ -14,7 +14,7 @@ const getProgress = async (userId, courseId) => {
     const publiheChaptersIds = publishedChapters?.map((item) => item?._id);
     const countCompletedChapters = await UserProgressModel.countDocuments({
       userId: userId,
-      $in: publiheChaptersIds,
+      chapterId: { $in: publiheChaptersIds },
       isCompleted: true,
     });
 

@@ -10,7 +10,6 @@ const stripeCustomerSchema = new Schema({
 });
 
 const stripeCustomerModel =
-  models.stripeCstripeCustomerSchemaustomer ||
-  model("stripeCustomer", stripeCustomerSchema);
+  models.stripeCustomer || model("stripeCustomer", stripeCustomerSchema);
 
 export default stripeCustomerModel;

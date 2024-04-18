@@ -16,12 +16,13 @@ const CourseLayout = async ({ children, params: { courseId } }) => {
     .populate({
       path: "chapters",
       match: { isPublished: true },
+      options: { sort: { position: 1 } },
       populate: {
         path: "userProgress",
         math: { userId: userId },
       },
     })
-    .sort({ createdAt: "asc" })
+    .sort({ createAt: "asc" })
     .exec();
 
   if (!course) return redirect("/");

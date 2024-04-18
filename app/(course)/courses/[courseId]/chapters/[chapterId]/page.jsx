@@ -5,6 +5,10 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import React from "react";
 import VideoPlayer from "./_componets/video-player";
+import CourseAnrrolBtn from "./_componets/course-anrrol-btn";
+import { Preview } from "@/components/preview-description";
+import { Separator } from "@/components/ui/separator";
+import { File } from "lucide-react";
 
 const ChapterDetailsPage = async ({ params }) => {
   const { userId } = auth();
@@ -48,7 +52,7 @@ const ChapterDetailsPage = async ({ params }) => {
         />
       )}
 
-      <div className="flex flex-col max-w-2xl mx-auto pb-20">
+      <div className="flex flex-col max-w-2xl mx-auto">
         <div className="p-4">
           <VideoPlayer
             isLocked={isLocked}
@@ -60,6 +64,42 @@ const ChapterDetailsPage = async ({ params }) => {
           />
         </div>
       </div>
+
+      <div className="mt-4 flex flex-col gap-4">
+        <div className="p-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <h3 className="font-medium text-lg">{chapter?.title}</h3>
+          {purchase ? (
+            <span>Progress btn</span>
+          ) : (
+            <CourseAnrrolBtn
+              courseId={params?.courseId}
+              price={course?.price}
+            />
+          )}
+        </div>
+
+        <Preview value={chapter?.description} />
+
+        <Separator />
+      </div>
+
+      {!!attachments && (
+        <div className="p-4">
+          {attachments?.map((item) => {
+            return (
+              <a
+                href={item?.url}
+                target="_blanck"
+                key={item?._id}
+                className="flex items-center gap-2 p-3 bg-sky-200 w-full border text-sky-700 rounded-md hover:underline"
+              >
+                <File />
+                <p className="line-clamp-1">{item?.name}</p>
+              </a>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

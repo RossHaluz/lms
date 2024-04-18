@@ -2,7 +2,6 @@ import CourseModel from "@/models/course";
 import getProgress from "./get-progress";
 
 const getCourses = async ({ title, categoryId, userId }) => {
-  console.log(userId);
   try {
     let query = {
       userId,

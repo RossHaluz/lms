@@ -19,7 +19,7 @@ const VideoPlayer = ({
   const [isReady, setIsReady] = useState(false);
 
   return (
-    <div className="relative aspect-video">
+    <div className="relative aspect-video flex flex-col gap-4">
       {!isReady && !isLocked && (
         <div className="absolute inset-0 flex items-center justify-center bg-slate-800">
           <Loader2 className="w-8 h-8 animate-spin text-secondary" />
