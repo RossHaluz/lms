@@ -19,21 +19,21 @@ export async function POST(req) {
     return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
   }
 
-  const session = event.data.object;
-  const userId = session?.metadata?.userId;
-  const courseId = session?.metadata?.courseId;
-
-  await PurchasesModel.create({
-    userId: userId,
-    courseId: courseId,
-  });
-
   if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+    const userId = session?.metadata?.userId;
+    const courseId = session?.metadata?.courseId;
+
     if (!userId || !courseId) {
       return new NextResponse(`Webhook Error: Missin metadata`, {
         status: 400,
       });
     }
+    console.log("event", event.type);
+    await PurchasesModel.create({
+      userId: userId,
+      courseId: courseId,
+    });
   } else {
     return new NextResponse(
       `Webhook Error: Unhendled event type ${event.type}`,
@@ -41,5 +41,5 @@ export async function POST(req) {
     );
   }
 
-  return NextResponse(null, { status: 200 });
+  return new NextResponse(null, { status: 200 });
 }
