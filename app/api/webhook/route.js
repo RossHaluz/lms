@@ -19,11 +19,11 @@ export async function POST(req) {
     return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    const userId = session?.metadata?.userId;
-    const courseId = session?.metadata?.courseId;
+  const session = event.data.object;
+  const userId = session?.metadata?.userId;
+  const courseId = session?.metadata?.courseId;
 
+  if (event.type === "checkout.session.completed") {
     if (!userId || !courseId) {
       return new NextResponse(`Webhook Error: Missin metadata`, {
         status: 400,

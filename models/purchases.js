@@ -3,12 +3,11 @@ import { Schema, model, models } from "mongoose";
 const purchasesSchema = new Schema({
   userId: {
     type: String,
-    unique: true,
+    unique: false,
   },
   courseId: {
     type: Schema.Types.ObjectId,
     ref: "course",
-    unique: true,
   },
 });
 
