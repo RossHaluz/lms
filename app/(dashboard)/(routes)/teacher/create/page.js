@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 const validSchema = z.object({
   title: z.string().min(1, "Title is required"),
 });

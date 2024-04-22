@@ -1,3 +1,4 @@
+import CourseProgress from "@/components/course-progress";
 import { IconBadge } from "@/components/icon-badge";
 import { FormatPrice } from "@/lib/format";
 import { BookOpen } from "lucide-react";
@@ -14,6 +15,7 @@ const CourseCard = ({
   chaptersLength,
   progress,
 }) => {
+  console.log(progress);
   return (
     <Link href={`/courses/${id}`}>
       <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
@@ -34,7 +36,10 @@ const CourseCard = ({
           </div>
         </div>
         {progress !== null ? (
-          <div>TODO: Progress component</div>
+          <CourseProgress
+            value={progress}
+            variant={progress === 100 ? "success" : "default"}
+          />
         ) : (
           <p className="text-md md:text-sm font-medium text-slate-600">
             {FormatPrice(price)}

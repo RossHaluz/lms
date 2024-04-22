@@ -9,6 +9,7 @@ import CourseAnrrolBtn from "./_componets/course-anrrol-btn";
 import { Preview } from "@/components/preview-description";
 import { Separator } from "@/components/ui/separator";
 import { File } from "lucide-react";
+import CompleteChapterBtn from "./_componets/complete-chapter-btn";
 
 const ChapterDetailsPage = async ({ params }) => {
   const { userId } = auth();
@@ -67,9 +68,16 @@ const ChapterDetailsPage = async ({ params }) => {
 
       <div className="mt-4 flex flex-col gap-4">
         <div className="p-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <h3 className="font-medium text-lg">{chapter?.title}</h3>
+          <h3 className="font-medium text-lg text-center md:text-left">
+            {chapter?.title}
+          </h3>
           {purchase ? (
-            <span>Progress btn</span>
+            <CompleteChapterBtn
+              courseId={course?._id}
+              chapterId={chapter?._id}
+              nextChapter={nextChapter}
+              isCompleted={userProgress?.isCompleted}
+            />
           ) : (
             <CourseAnrrolBtn
               courseId={params?.courseId}

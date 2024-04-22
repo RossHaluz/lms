@@ -1,4 +1,5 @@
 import { stripe } from "@/lib/stripe";
+import CourseModel from "@/models/course";
 import PurchasesModel from "@/models/purchases";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -29,11 +30,11 @@ export async function POST(req) {
         status: 400,
       });
     }
-    console.log("event", event.type);
     await PurchasesModel.create({
       userId: userId,
       courseId: courseId,
     });
+    await CourseModel.findByIdAndUpdate(courseId, { progress: 0 });
   } else {
     return new NextResponse(
       `Webhook Error: Unhendled event type ${event.type}`,

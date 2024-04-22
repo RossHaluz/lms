@@ -42,11 +42,9 @@ const getChapter = async ({ userId, chapterId, courseId }) => {
       });
 
       nextChapter = await ChapterModel.findOne({
-        _id: chapterId,
+        _id: { $ne: chapterId }, // не поточний розділ
         courseId,
-        position: {
-          $gt: chapter?.position,
-        },
+        position: { $gte: chapter.position },
       }).sort("asc");
     }
 
