@@ -1,13 +1,11 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { CheckCircle, Lock, PlayCircle } from "lucide-react";
-import { usePathname, useParams, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const CourseSedibarItem = ({ id, label, isCompleted, courseId, isLocked }) => {
   const pathname = usePathname();
   const router = useRouter();
-
-  console.log(isCompleted);
 
   const isActive = pathname?.includes(id);
 
