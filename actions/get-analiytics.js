@@ -19,6 +19,7 @@ const groupByCourse = (purchases) => {
 
 export const getAnalytics = async (userId) => {
   try {
+    await connect();
     const purchases = await PurchasesModel.find({
       userId: userId,
     }).populate("courseId");
