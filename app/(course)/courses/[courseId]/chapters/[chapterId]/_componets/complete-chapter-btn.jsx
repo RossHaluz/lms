@@ -29,7 +29,7 @@ const CompleteChapterBtn = ({
       }
 
       if (!isCompleted && nextChapter) {
-        route.push(`/courses/${courseId}/chapters/${nextChapter}`);
+        route.push(`/courses/${courseId}/chapters/${nextChapter?._id}`);
       }
     } catch (error) {
       toast.error("Something went wrong...");

@@ -15,7 +15,6 @@ const CourseCard = ({
   chaptersLength,
   progress,
 }) => {
-  console.log(progress);
   return (
     <Link href={`/courses/${id}`}>
       <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
@@ -31,7 +30,7 @@ const CourseCard = ({
             <IconBadge size="sm" icon={BookOpen} />
             <span>
               {chaptersLength}
-              {chaptersLength === 1 ? "Chapter" : "Chapters"}
+              {chaptersLength === 1 ? " Chapter" : " Chapters"}
             </span>
           </div>
         </div>

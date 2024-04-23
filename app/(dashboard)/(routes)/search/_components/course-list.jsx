@@ -12,7 +12,7 @@ const CourseList = ({ items }) => {
               title={item?.title}
               id={item?._id}
               imageUrl={item?.imageUrl}
-              chaptersLength={items?.chapters?.length}
+              chaptersLength={item?.chapters?.length}
               price={item?.price}
               progress={item?.progress}
               category={item?.categoryId?.name}

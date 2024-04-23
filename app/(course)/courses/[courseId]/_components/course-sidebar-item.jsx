@@ -7,6 +7,8 @@ const CourseSedibarItem = ({ id, label, isCompleted, courseId, isLocked }) => {
   const pathname = usePathname();
   const router = useRouter();
 
+  console.log(isCompleted);
+
   const isActive = pathname?.includes(id);
 
   const Icon = isLocked ? Lock : isCompleted ? CheckCircle : PlayCircle;
