@@ -1,10 +1,10 @@
 import CourseModel from "@/models/course";
 import getProgress from "./get-progress";
+import PurchasesModel from "@/models/purchases";
 
 const getCourses = async ({ title, categoryId, userId }) => {
   try {
     let query = {
-      userId,
       isPublished: true,
     };
 
@@ -26,24 +26,29 @@ const getCourses = async ({ title, categoryId, userId }) => {
       .sort({ createdAt: "desc" })
       .exec();
 
+    const purchasesUser = await PurchasesModel.find({
+      userId,
+    });
+
     const coursesWithProgress = await Promise.all(
-      courses?.map((course) => {
-        if (course?.purchases?.length === 0) {
+      courses?.map(async (course) => {
+        const findPurchase = purchasesUser?.find(
+          (item) =>
+            item?._id.toString() === course?._doc?.purchases[0].toString()
+        );
+
+        if (!findPurchase) {
           return {
-            ...course,
+            ...course._doc,
             progress: null,
           };
         }
 
-        const progressPersateg = getProgress(userId, course?._id);
-
         return {
-          ...course,
-          progress: progressPersateg,
+          ...course?._doc,
         };
       })
     );
-
     return coursesWithProgress;
   } catch (error) {
     console.log("[GET_COURSES]", error);

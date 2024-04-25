@@ -7,6 +7,8 @@ import CourseProgress from "@/components/course-progress";
 const CourseSidebar = async ({ course, progressCount }) => {
   const { userId } = auth();
 
+  console.log("course", course);
+
   if (!userId) return redirect("/");
 
   const purchase = await PurchasesModel.findOne({

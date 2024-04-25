@@ -19,7 +19,7 @@ const CourseLayout = async ({ children, params: { courseId } }) => {
       options: { sort: { position: 1 } },
       populate: {
         path: "userProgress",
-        math: { userId: userId },
+        match: { userId: userId },
       },
     })
     .sort({ createAt: "asc" })

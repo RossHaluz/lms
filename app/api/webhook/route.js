@@ -30,11 +30,13 @@ export async function POST(req) {
         status: 400,
       });
     }
-    await PurchasesModel.create({
+    const purchase = await PurchasesModel.create({
       userId: userId,
       courseId: courseId,
     });
-    await CourseModel.findByIdAndUpdate(courseId, { progress: 0 });
+    await CourseModel.findByIdAndUpdate(courseId, {
+      $push: { purchases: purchase?._id },
+    });
   } else {
     return new NextResponse(
       `Webhook Error: Unhendled event type ${event.type}`,
